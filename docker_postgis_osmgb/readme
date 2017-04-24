@@ -1,0 +1,20 @@
+# Populates a postgis database with OSM data for GB.
+# Uses Docker so we don't have to fight machines/installation and it'll always just work with little effort.
+
+# Build the image, from this folder.
+docker build -t osmgb .
+
+# Run the image. Create /data/docker/osmgb first.
+docker run -v /data/docker/osmgb:/var/lib/postgresql/data -p 5432:5432 osmgb
+
+# See what Docker has called your image, e.g unruffled_babbage
+docker ps
+
+# Set up the OSM GB data - takes hours
+docker exec <container_name> su postgres -c populate_osm.sh
+
+# Find the container's ip: (On my Mac this was 0.0.0.0)
+    docker inspect <container_name> | grep HostIp
+
+# Check that we can access the OSM geometry
+python check.py 0.0.0.0
