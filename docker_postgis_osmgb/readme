@@ -17,4 +17,4 @@ docker exec <container_name> su postgres -c populate_osm.sh
     docker inspect <container_name> | grep HostIp
 
 # Check that we can access the OSM geometry
-python check.py 0.0.0.0
+python check_osm_data.py 0.0.0.0
